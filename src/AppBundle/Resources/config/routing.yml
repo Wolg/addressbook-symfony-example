@@ -3,7 +3,7 @@ index:
     defaults: { _controller: AppBundle:Person:index }
 
 person_show:
-    path:     /show
+    path:     /show/{id}
     defaults: { _controller: AppBundle:Person:show }
 
 person_create:

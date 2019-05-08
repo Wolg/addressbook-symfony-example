@@ -18,16 +18,22 @@ class PersonController extends Controller
         ));
     }
 
-    public function showAction()
+    public function showAction($id)
     {
-        return $this->render('AppBundle:Person:show.html.twig', array(
-            // ...
+        $person = $this->getDoctrine()
+            ->getRepository(Person::class)
+            ->find($id);
+        if (!$person) {
+            throw $this->createNotFoundException('No persons found by id ' . $id);
+        }
+        return $this->render('@AppBundle/person/show.html.twig', array(
+            'person' => $person
         ));
     }
 
     public function createAction()
     {
-        return $this->render('AppBundle:Person:create.html.twig', array(
+        return $this->render('@AppBundle/person/create.html.twig', array(
             // ...
         ));
     }
