@@ -19,6 +19,10 @@
             <p class="card-text">{{ person.phonenumber }}</p>
             <p class="card-text">{{ person.birthday|date("m/d/Y") }}</p>
             <p class="card-text">{{ person.email }}</p>
+            {% if form is defined and form.delete is defined %}
+                Are you sure you want to delete {{ person.firstName }} {{ person.lastName }} ?
+                {{ form(form) }}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

@@ -6,6 +6,7 @@ use AppBundle\Entity\Person;
 use AppBundle\Form\PersonType;
 use AppBundle\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 class PersonController extends Controller
@@ -104,10 +105,33 @@ class PersonController extends Controller
         ));
     }
 
-    public function deleteAction()
+    public function deleteAction($id, Request $request)
     {
-        return $this->render('AppBundle:Person:delete.html.twig', array(
-            // ...
+        $em = $this->getDoctrine()->getManager();
+        $person = $em->getRepository(Person::class)->find($id);
+        if (!$person) {
+            throw $this->createNotFoundException('No persons found by id ' . $id);
+        }
+
+        $form = $this->createFormBuilder($person)
+            ->add('delete', SubmitType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em->remove($person);
+            $em->flush();
+            $this->addFlash(
+                'success',
+                'Deleted successfully!'
+            );
+            return $this->redirect('/');
+        }
+
+        return $this->render('@AppBundle/person/show.html.twig', array(
+            'person' => $person,
+            'form' => $form->createView()
         ));
     }
 
