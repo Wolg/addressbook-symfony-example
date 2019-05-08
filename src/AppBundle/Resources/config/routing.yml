@@ -1,0 +1,20 @@
+
+index:
+    path:     /
+    defaults: { _controller: AppBundle:Person:index }
+
+show:
+    path:     /show
+    defaults: { _controller: AppBundle:Person:show }
+
+create:
+    path:     /create
+    defaults: { _controller: AppBundle:Person:create }
+
+update:
+    path:     /update
+    defaults: { _controller: AppBundle:Person:update }
+
+delete:
+    path:     /delete
+    defaults: { _controller: AppBundle:Person:delete }
