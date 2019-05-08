@@ -37,7 +37,7 @@
                 <td>{{ person.email }}</td>
                 <td>
                     {% if person.picture is not null %}
-                        <img style="max-width:128px;" src="{{ asset('assets/images/{{ person.picture }}') }}" class="img-rounded"/>
+                        <img style="max-width:128px;" src="{{ asset('assets/images/'~person.picture) }}" class="img-rounded"/>
                     {% else %}
                         <img src="{{ asset('assets/images/default-user-icon-14.jpg') }}" class="img-rounded"/>
                     {% endif %}

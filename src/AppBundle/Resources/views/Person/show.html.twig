@@ -8,7 +8,7 @@
         <div class="card-body">
             <h5 class="card-title">{{ person.firstName }} {{ person.lastName }}</h5>
             {% if person.picture is not null %}
-                <img style="max-width:128px;" class="card-img-top" src="{{ asset('assets/images/{{ person.picture }}') }}" alt="Person picture">
+                <img style="max-width:128px;" class="card-img-top" src="{{ asset('assets/images/'~person.picture) }}" alt="Person picture">
             {% else %}
                 <img style="max-width:128px;" class="card-img-top" src="{{ asset('assets/images/default-user-icon-14.jpg') }}" alt="Person picture">
             {% endif %}
