@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block title %}AppBundle:Person:show{% endblock %}
+
+{% block body %}
+    <div class="card text-white bg-dark mb-3">
+        <div class="card-header">Person details</div>
+        <div class="card-body">
+            <h5 class="card-title">{{ person.firstName }} {{ person.lastName }}</h5>
+            {% if person.picture is not null %}
+                <img style="max-width:128px;" class="card-img-top" src="{{ asset('assets/images/'~person.picture) }}" alt="Person picture">
+            {% else %}
+                <img style="max-width:128px;" class="card-img-top" src="{{ asset('assets/images/default-user-icon-14.jpg') }}" alt="Person picture">
+            {% endif %}
+            <p class="card-text">{{ person.address }}</p>
+            <p class="card-text">{{ person.zip }}</p>
+            <p class="card-text">{{ person.city }}</p>
+            <p class="card-text">{{ person.country }}</p>
+            <p class="card-text">{{ person.phonenumber }}</p>
+            <p class="card-text">{{ person.birthday|date("m/d/Y") }}</p>
+            <p class="card-text">{{ person.email }}</p>
+            {% if form is defined and form.delete is defined %}
+                Are you sure you want to delete {{ person.firstName }} {{ person.lastName }} ?
+                {{ form(form) }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
