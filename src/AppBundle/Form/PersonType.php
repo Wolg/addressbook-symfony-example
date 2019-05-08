@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Person;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -9,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 class PersonType extends AbstractType
 {
@@ -23,7 +26,16 @@ class PersonType extends AbstractType
             ->add('phone_number', TextType::class)
             ->add('birthday', DateType::class)
             ->add('email', EmailType::class)
-            ->add('picture', FileType::class)
+            ->add('picture', FileType::class, array(
+                'data_class' => null,
+                'required' => false,
+                'constraints' => array(
+                    new Image(array(
+                        'maxSize' => '2M',
+                        'mimeTypes' => array('image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'),
+                    )),
+                ),
+            ))
             ->add('submit', SubmitType::class)
             ->getForm();
         ;
