@@ -2,14 +2,19 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Person;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class PersonController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('AppBundle:Person:index.html.twig', array(
-            // ...
+        $persons = $this->getDoctrine()
+            ->getRepository(Person::class)
+            ->findAll();
+
+        return $this->render('@AppBundle/person/index.html.twig', array(
+            'persons' => $persons
         ));
     }
 
