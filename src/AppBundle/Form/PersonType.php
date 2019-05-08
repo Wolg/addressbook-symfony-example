@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,6 +23,7 @@ class PersonType extends AbstractType
             ->add('phone_number', TextType::class)
             ->add('birthday', DateType::class)
             ->add('email', EmailType::class)
+            ->add('picture', FileType::class)
             ->add('submit', SubmitType::class)
             ->getForm();
         ;

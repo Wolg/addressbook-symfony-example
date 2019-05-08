@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Person;
 use AppBundle\Form\PersonType;
+use AppBundle\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -33,7 +34,7 @@ class PersonController extends Controller
         ));
     }
 
-    public function createAction(Request $request)
+    public function createAction(Request $request, FileUploader $fileUploader)
     {
         $person = new Person();
 
@@ -41,6 +42,10 @@ class PersonController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $person->getPicture();
+            $fileName = $fileUploader->upload($file);
+            $person->setPicture($fileName);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($person);
             $em->flush();
