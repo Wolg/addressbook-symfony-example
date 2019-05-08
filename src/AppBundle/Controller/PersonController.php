@@ -3,7 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Person;
+use AppBundle\Form\PersonType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class PersonController extends Controller
 {
@@ -31,10 +33,31 @@ class PersonController extends Controller
         ));
     }
 
-    public function createAction()
+    public function createAction(Request $request)
     {
+        $person = new Person();
+
+        $form = $this->createForm(PersonType::class, $person);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($person);
+            $em->flush();
+            $this->addFlash(
+                'success',
+                'Created successfully!'
+            );
+            return $this->redirect('/');
+        } elseif ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash(
+                'warning',
+                'Something went wrong!'
+            );
+        }
+
         return $this->render('@AppBundle/person/create.html.twig', array(
-            // ...
+            'form' => $form->createView()
         ));
     }
 
