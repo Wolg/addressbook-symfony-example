@@ -66,10 +66,41 @@ class PersonController extends Controller
         ));
     }
 
-    public function updateAction()
+    public function updateAction($id, Request $request, FileUploader $fileUploader)
     {
-        return $this->render('AppBundle:Person:update.html.twig', array(
-            // ...
+        $em = $this->getDoctrine()->getManager();
+        $person = $em->getRepository(Person::class)->find($id);
+        if (!$person) {
+            throw $this->createNotFoundException('No persons found by id ' . $id);
+        }
+
+        $form = $this->createForm(PersonType::class, $person);
+        $prevPicture = $person->getPicture();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $person->getPicture();
+            if ($prevPicture && !$file) {
+                $person->setPicture($prevPicture);
+            } elseif($file) {
+                $fileName = $fileUploader->upload($file);
+                $person->setPicture($fileName);
+            }
+
+            $em->flush();
+            $this->addFlash(
+                'success',
+                'Updated successfully!'
+            );
+        } elseif ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash(
+                'warning',
+                'Something went wrong!'
+            );
+        }
+
+        return $this->render('@AppBundle/person/update.html.twig', array(
+            'form' => $form->createView()
         ));
     }
 

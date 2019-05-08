@@ -11,9 +11,9 @@ person_create:
     defaults: { _controller: AppBundle:Person:create }
 
 person_update:
-    path:     /update
+    path:     /update/{id}
     defaults: { _controller: AppBundle:Person:update }
 
 person_delete:
-    path:     /delete
+    path:     /delete/{id}
     defaults: { _controller: AppBundle:Person:delete }
