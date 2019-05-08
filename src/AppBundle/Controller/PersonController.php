@@ -119,7 +119,7 @@ class PersonController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em->remove($person);
             $em->flush();
             $this->addFlash(
